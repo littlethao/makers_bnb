@@ -10,9 +10,9 @@ var server = http.createServer(function (req, res){
   }
 
   else if (req.url == '/users/new') {
-    fs.readFile('./public/users/new.html', 'UTF-8', function(err, html){
+    fs.readFile('./views/users/new.html', 'UTF-8', function(err, html){
       res.writeHead(200, {'Content-Type': 'text/html'});
-      res.end(html);  
+      res.end(html);
     });
 
   }
