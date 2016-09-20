@@ -1,14 +1,14 @@
 var http = require('http');
 var fs = require('fs');
 var qs = require('querystring');
-// var NodeSession = require('node-session');
+var NodeSession = require('node-session');
 var knex = require('./db/knex.js');
 
 var server = http.createServer(function (req, res){
   var bookshelf = require('bookshelf')(knex);
   var User = bookshelf.Model.extend({tableName: 'users'});
 
-  // session = new NodeSession({secret: 'murtzsecretkey'});
+  session = new NodeSession({secret: 'murtzsecretkey'});
 
   if (req.url == "/") {
     res.writeHead(200, {'Content-Type': 'text/html'});
