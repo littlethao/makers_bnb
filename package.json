@@ -22,7 +22,9 @@
     "jasmine-node": "^1.14.5",
     "knex": "^0.12.1",
     "knex-cleaner": "^1.1.3",
+    "node-session": "^1.2.1",
     "pg": "^6.1.0",
+    "querystring": "^0.2.0",
     "zombie": "^4.2.1"
   }
 }
