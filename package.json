@@ -1,0 +1,19 @@
+{
+  "name": "makers_bnb",
+  "version": "1.0.0",
+  "description": "A Makers AirBnB",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mrmurtz/makers_bnb.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mrmurtz/makers_bnb/issues"
+  },
+  "homepage": "https://github.com/mrmurtz/makers_bnb#readme"
+}
