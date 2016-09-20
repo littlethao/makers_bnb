@@ -1,16 +1,19 @@
 process.env.NODE_ENV = 'test';
 
-var Browser = require("zombie");
-var url = "http://localhost:8000";
-var browser = new Browser();
+var server = require('../index.js');
+var url = "http://localhost:3000";
 var knexCleaner = require('knex-cleaner');
 var knex = require('../db/knex.js');
+var Browser = require("zombie");
 
 describe('user testing', function(){
 
   beforeEach(function(){
+    server.listen(3000);
     knexCleaner.clean(knex);
   });
+
+  var browser = new Browser();
 
   describe("users/new", function(){
     it("should have defined headless browser", function(next){
@@ -20,9 +23,7 @@ describe('user testing', function(){
     });
   });
 
-
   describe("users/new", function(){
-
     it("should have status code of 200", function(next){
       browser.visit(url + '/users/new', function(err){
         expect(browser.statusCode).toEqual(200);
@@ -33,6 +34,7 @@ describe('user testing', function(){
         next();
       });
     });
+
     it("submitting should create a success message", function(next){
       browser.visit(url + '/users/new', function(err){
         browser.fill('#email-address', 'rosie@allott.com');

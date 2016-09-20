@@ -1,7 +1,7 @@
 describe("Users", function(){
 
-  beforeEach(function(){
-    process.env.NODE_ENV = 'test';
-  });
+  // beforeEach(function(){
+  //   process.env.NODE_ENV = 'test';
+  // });
 
 });
