@@ -12,7 +12,7 @@ var server = http.createServer(function (req, res){
 
   if (req.url == "/") {
     res.writeHead(200, {'Content-Type': 'text/html'});
-    res.write('Hello World! Welcome rosie@allott.com');
+    res.write('Hello World! Welcome '+req.session.get('email'));
     res.end();
   }
 
@@ -32,7 +32,11 @@ var server = http.createServer(function (req, res){
 
       req.on('end', function(){
         var params = qs.parse(body);
-        new User({email: params.email, password: params.password}).save();
+        session.startSession(req, res, function(){
+          var user = new User({email: params.email, password: params.password}).save();
+          req.session.put('id', user.id);
+          req.session.flash('email', user.email);
+        });
         res.writeHead(302, {Location: '/'});
         res.end();
       });
