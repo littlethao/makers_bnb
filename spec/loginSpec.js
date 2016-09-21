@@ -15,7 +15,6 @@ describe('Login testing', function(){
     browser.deleteCookies();
     knex('users').insert({
       email: 'rosie@allott.com', password: '$2a$10$MjmF1z/VeNe7V5asctIbDOyM8fJeqGeMYFUni7V5Xt80QL5hGCn8G'
-
     });
   });
 
