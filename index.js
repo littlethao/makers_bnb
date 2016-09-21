@@ -5,13 +5,14 @@ var ejs = require('ejs');
 var knex = require('./db/knex.js');
 var bookshelf = require('./db/database.js');
 var NodeSession = require('node-session');
+var User = require('./models/user.js');
+var Space = require('./models/space.js');
 
 var session = new NodeSession({secret: 'murtzsecretkey'});
 
 this.server = http.createServer(function (req, res){
   session.startSession(req, res, function(){
-  var User = bookshelf.Model.extend({tableName: 'users'});
-  var Space = bookshelf.Model.extend({tableName: 'spaces'});
+
 
   if (req.url == "/") {
     res.writeHead(200, {'Content-Type': 'text/html'});
