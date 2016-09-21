@@ -1,3 +1,5 @@
+<ul>
 <% for(var i=0; i<spaces.length; i++) { %>
-  <%= spaces[i]['title'] %> - <%= spaces[i]['description'] %> - <%= spaces[i]['price'] %>
+  <li><%= spaces[i]['title'] %> - <%= spaces[i]['description'] %> - <%= spaces[i]['price'] %> - <%= spaces[i].users.email %></li>
 <% } %>
+</ul>

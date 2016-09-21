@@ -7,6 +7,7 @@ var signup = function(callback) {
     browser.fill('#email-address', 'rosie@allott.com');
     browser.fill('#password', 'password');
     browser.pressButton('#signup', function(){
+      console.log(browser.cookies.dump());
       callback();
     });
   });

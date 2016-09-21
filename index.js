@@ -36,7 +36,7 @@ this.server = http.createServer(function (req, res){
 
     req.on('end', function() {
       var post = qs.parse(body);
-      new Space({title: post.title, description: post.description, price: post.price, user_id: req.session.get('id')}).save();
+      Space.forge({title: post.title, description: post.description, price: post.price, user_id: req.session.get('id')}).save();
       res.writeHead(302, {Location: "/spaces"});
       res.end();
     });
@@ -46,7 +46,9 @@ this.server = http.createServer(function (req, res){
   else if (req.url == "/spaces" && req.method == "GET" ) {
     fs.readFile('./views/spaces/viewspaces.ejs',{encoding: "utf8"}, function(err, page){
       res.writeHead(200, {'Content-Type': 'text/html'});
-      Space.fetchAll().then(function(spaces){
+      Space.fetchAll({
+          withRelated: 'users'
+      }).then(function(spaces){
         var html = ejs.render(page, {spaces: spaces.toJSON()});
         res.write(html);
         res.end();

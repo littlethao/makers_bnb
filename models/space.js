@@ -3,9 +3,10 @@
 let Bookshelf = require('../db/database.js');
 
 require('./user.js');
-var Space = Bookshelf.Model.extend({tableName: 'spaces',
+var Space = Bookshelf.Model.extend({
+  tableName: 'spaces',
   users: function(){
-    return this.belongsTo('User');
+    return this.belongsTo('User', 'user_id');
   }
 });
 
