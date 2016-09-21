@@ -36,7 +36,7 @@ this.server = http.createServer(function (req, res){
 
     req.on('end', function() {
       var post = qs.parse(body);
-      new Space({title: post.title, description: post.description, price: post.price}).save();
+      new Space({title: post.title, description: post.description, price: post.price, user_id: req.session.get('id')}).save();
       res.writeHead(302, {Location: "/spaces"});
       res.end();
     });

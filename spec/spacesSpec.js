@@ -22,7 +22,7 @@ describe("Listing space", function(){
         browser.fill('input[name="price"]', 40);
         browser.pressButton('input[value="Add space"]', function(){
           expect(browser.success).toBe(true);
-          expect(browser.html("body")).toContain("Cosy home with seaview - Double bedroom with balcony - 40");
+          expect(browser.html("body")).toContain("Cosy home with seaview - Double bedroom with balcony - 40 - rosie@allott.com");
           next();
         });
       });
@@ -37,7 +37,7 @@ describe("Listing space", function(){
         browser.fill('input[name="price"]', 40);
         browser.pressButton('input[value="Add space"]', function(){
           browser.visit('http://localhost:3000/spaces', function(err){
-            expect(browser.html("body")).toContain("Cosy home with seaview - Double bedroom with balcony - 40");
+            expect(browser.html("body")).toContain("Cosy home with seaview - Double bedroom with balcony - 40 - rosie@allott.com");
             next();
           });
         });
