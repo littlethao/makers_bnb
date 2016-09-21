@@ -81,7 +81,8 @@ this.server = http.createServer(function (req, res){
   }
 
   else if (req.url == '/users/login' && req.method == 'GET') {
-    fs.readFile('./views/users/login.html', 'UTF-8', function(err, html){
+    fs.readFile('./views/users/login.ejs', 'UTF-8', function(err, page){
+      var html = ejs.render(page, {message: req.session.get('message')});
       res.writeHead(200, {'Content-Type': 'text/html'});
       res.write(html);
       res.end();
@@ -89,9 +90,29 @@ this.server = http.createServer(function (req, res){
   }
 
   else if (req.url == '/users/login' && req.method == 'POST') {
-    res.writeHead(302, {Location: '/spaces'});
-    req.session.flash('message', 'Successfuly logged in');
-    res.end();
+
+    var body = '';
+    req.on('data', function(data){
+      body += data;
+    });
+
+      req.on('end', function(){
+          var params = qs.parse(body);
+          User.where({email: params.email}).fetch().then(function(user){
+
+            if (user && params.password === user.toJSON().password) {
+              req.session.put('id', user.toJSON().id);
+              req.session.flash('message', 'Successfuly logged in');
+              res.writeHead(302, {Location: '/spaces'});
+              res.end();
+            }
+            else {
+              req.session.flash('message', 'Incorrect email or password');
+              res.writeHead(302, {Location: '/users/login'});
+              res.end();
+            }
+          });
+      });
   }
 
   else {
