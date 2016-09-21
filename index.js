@@ -7,6 +7,7 @@ var bookshelf = require('./db/database.js');
 var NodeSession = require('node-session');
 var User = require('./models/user.js');
 var Space = require('./models/space.js');
+var bcrypt = require('bcrypt');
 
 var session = new NodeSession({secret: 'murtzsecretkey'});
 
@@ -71,13 +72,15 @@ this.server = http.createServer(function (req, res){
 
       req.on('end', function(){
           var params = qs.parse(body);
-          User.forge({email: params.email, password: params.password}).save().then(function(user){
-              req.session.put('id', user.toJSON().id);
-              req.session.flash('email', user.toJSON().email);
-              res.writeHead(302, {Location: '/'});
-              res.end();
+          bcrypt.hash(params.password, 10, function(err, hash){
+            User.forge({email: params.email, password: hash}).save().then(function(user){
+                req.session.put('id', user.toJSON().id);
+                req.session.flash('email', user.toJSON().email);
+                res.writeHead(302, {Location: '/'});
+                res.end();
+            });
           });
-      });
+        });
   }
 
   else if (req.url == '/users/login' && req.method == 'GET') {
@@ -100,7 +103,7 @@ this.server = http.createServer(function (req, res){
           var params = qs.parse(body);
           User.where({email: params.email}).fetch().then(function(user){
 
-            if (user && params.password === user.toJSON().password) {
+            if (user && bcrypt.compareSync(params.password, user.toJSON().password)) {
               req.session.put('id', user.toJSON().id);
               req.session.flash('message', 'Successfuly logged in');
               res.writeHead(302, {Location: '/spaces'});
