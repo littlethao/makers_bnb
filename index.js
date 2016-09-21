@@ -54,6 +54,12 @@ this.server = http.createServer(function (req, res){
     });
   }
 
+  else if (req.url == "spaces/request/:spaces['id']" && req.method == "POST"){
+    //hirerID = req.session.get('id')
+    //ownerID = relatedUser when fetch spaces['id']
+    //store request in requests table with hirerID, ownerID, space ID, date
+  }
+
   else if (req.url == '/users/new' && req.method == 'GET') {
     fs.readFile('./views/users/new.html', 'UTF-8', function(err, html){
       res.writeHead(200, {'Content-Type': 'text/html'});
