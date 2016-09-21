@@ -15,10 +15,13 @@ this.server = http.createServer(function (req, res){
   session.startSession(req, res, function(){
 
 
-  if (req.url == "/") {
+  if (req.url == "/" && req.method == 'GET') {
+    fs.readFile('./views/home.ejs', {encoding: 'utf8'}, function(err, page){
+        var html = ejs.render(page, {message: req.session.get('message')});
     res.writeHead(200, {'Content-Type': 'text/html'});
-    res.write('Hello World! Welcome ' + req.session.get('email'));
+    res.write(html);
     res.end();
+    });
   }
 
   else if (req.url == "/spaces/new" && req.method == "GET") {
@@ -74,8 +77,8 @@ this.server = http.createServer(function (req, res){
           bcrypt.hash(params.password, 10, function(err, hash){
             User.forge({email: params.email, password: hash}).save().then(function(user){
                 req.session.put('id', user.toJSON().id);
-                req.session.flash('email', user.toJSON().email);
-                res.writeHead(302, {Location: '/'});
+                req.session.flash('message', 'Welcome ' + user.toJSON().email);
+                res.writeHead(302, {Location: '/spaces'});
                 res.end();
             });
           });
@@ -115,6 +118,13 @@ this.server = http.createServer(function (req, res){
             }
           });
       });
+  }
+
+  else if (req.url == '/users/logout' && req.method == 'GET') {
+    req.session.forget('id');
+    req.session.flash('message', "See you again soon");
+    res.writeHead(302, {Location: '/'});
+    res.end();
   }
 
   else {

@@ -8,12 +8,17 @@ var Browser = require("zombie");
 
 describe('Login testing', function(){
 
+  var browser = new Browser();
+
   beforeEach(function(){
     server.listen(3000);
     knexCleaner.clean(knex);
+    browser.deleteCookies();
   });
 
-  var browser = new Browser();
+  afterEach(function(){
+    server.close();
+  });
 
   describe("users/login", function(){
     it("should be able to log in", function(next){
@@ -21,12 +26,14 @@ describe('Login testing', function(){
         browser.fill('#email-address', 'rosie@allott.com');
         browser.fill('#password', 'password');
         browser.pressButton('#signup', function(err){
+          browser.clickLink('Log out', function(){
           browser.visit(url + '/users/login', function(err){
             browser.fill('#email-address', 'rosie@allott.com');
             browser.fill('#password', 'password');
             browser.pressButton('#login', function(){
               expect(browser.html("body")).toContain("Successfuly logged in");
               next();
+              });
             });
           });
         });
@@ -35,17 +42,19 @@ describe('Login testing', function(){
   });
 
   describe("users/login", function(){
-    it("should raise error if trying to login with incorrect pword", function(next){
+    it("should not be able to log in, raise error pword", function(next){
       browser.visit('http://localhost:3000/users/new', function(err){
         browser.fill('#email-address', 'rosie@allott.com');
         browser.fill('#password', 'password');
         browser.pressButton('#signup', function(err){
+          browser.clickLink('Log out', function(){
           browser.visit(url + '/users/login', function(err){
             browser.fill('#email-address', 'rosie@allott.com');
             browser.fill('#password', 'incorrect');
             browser.pressButton('#login', function(){
               expect(browser.html("body")).toContain("Incorrect email or password");
               next();
+              });
             });
           });
         });
@@ -54,21 +63,24 @@ describe('Login testing', function(){
   });
 
   describe("users/login", function(){
-    it("should raise error if trying to login with incorrect email", function(next){
+    it("should not be able to log in, raise error email", function(next){
       browser.visit('http://localhost:3000/users/new', function(err){
         browser.fill('#email-address', 'rosie@allott.com');
         browser.fill('#password', 'password');
         browser.pressButton('#signup', function(err){
+          browser.clickLink('Log out', function(){
           browser.visit(url + '/users/login', function(err){
-            browser.fill('#email-address', 'rosie@gmail.com');
-            browser.fill('#password', 'password');
+            browser.fill('#email-address', 'rosie@notallot.com');
+            browser.fill('#password', 'incorrect');
             browser.pressButton('#login', function(){
               expect(browser.html("body")).toContain("Incorrect email or password");
               next();
+              });
             });
           });
         });
       });
     });
   });
+
 });
