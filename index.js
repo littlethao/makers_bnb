@@ -3,7 +3,7 @@ var fs = require('fs');
 var qs = require('querystring');
 var ejs = require('ejs');
 var knex = require('./db/knex.js');
-var bookshelf = require('bookshelf')(knex);
+var bookshelf = require('./db/database.js');
 var NodeSession = require('node-session');
 
 var session = new NodeSession({secret: 'murtzsecretkey'});
