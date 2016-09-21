@@ -4,31 +4,29 @@ var knexCleaner = require('knex-cleaner');
 var knex = require('../db/knex');
 var server = require('../index.js');
 var bookshelf = require('bookshelf')(knex);
-var helpers = require('./helpers/user_signup_helper.js');
+
 
 describe("Listing space", function(){
+
+  var browser = new Browser();
 
   beforeEach(function(){
     knexCleaner.clean(knex);
     server.listen(3000);
+    browser.deleteCookies();
     var Space = bookshelf.Model.extend({tableName: 'spaces'});
-  });
-
-  var browser = new Browser();
-  browser.debug = true;
-
-  it("should have status code of 200", function(next){
-    browser.visit('http://localhost:3000/spaces/new', function(err){
-      expect(browser.statusCode).toEqual(200);
-      expect(browser.html('body')).toContain('Add space');
-      expect(browser.query('input[name ="title"]')).toBeDefined();
-      expect(browser.query('input[name ="description"]')).toBeDefined();
-      expect(browser.query('input[name ="price"]')).toBeDefined();
-      expect(browser.query('input[name ="date"]')).toBeDefined();
-      next();
+    knex('users').insert({
+      email: 'rosie@allott.com', password: '$2a$10$MjmF1z/VeNe7V5asctIbDOyM8fJeqGeMYFUni7V5Xt80QL5hGCn8G'
     });
   });
 
+  afterEach(function(){
+    server.close();
+    knexCleaner.clean(knex);
+  });
+
+
+  browser.debug = true;
 
   it("should display all spaces on /spaces path", function(next){
     browser.visit('http://localhost:3000/users/new', function(err){
