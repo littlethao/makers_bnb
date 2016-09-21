@@ -15,26 +15,8 @@ describe("Listing space", function(){
   var browser = new Browser();
   browser.debug = true;
 
-  it("should give us a form to place a space", function(next){
-    browser.visit('http://localhost:3000/users/new', function(err){
-      browser.fill('#email-address', 'rosie@allott.com');
-      browser.fill('#password', 'password');
-      browser.pressButton('#signup', function(){
-      browser.visit('http://localhost:3000/spaces/new', function(err){
-        browser.fill('input[name ="title"]', "Cosy home with seaview");
-        browser.fill('input[name="description"]', "Double bedroom with balcony");
-        browser.fill('input[name="price"]', 40);
-        browser.pressButton('input[value="Add space"]', function(){
-          expect(browser.success).toBe(true);
-          expect(browser.html("body")).toContain("Cosy home with seaview - Double bedroom with balcony - 40 - rosie@allott.com");
-          next();
-        });
-      });
-    });
-  });
-})
 
-it("should give us a form to place a space", function(next){
+it("should be able to view spaces", function(next){
   browser.visit('http://localhost:3000/users/new', function(err){
     browser.fill('#email-address', 'rosie@allott.com');
     browser.fill('#password', 'password');

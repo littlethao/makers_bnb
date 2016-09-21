@@ -49,7 +49,7 @@ this.server = http.createServer(function (req, res){
       Space.fetchAll({
           withRelated: 'users'
       }).then(function(spaces){
-        var html = ejs.render(page, {spaces: spaces.toJSON()});
+        var html = ejs.render(page, {spaces: spaces.toJSON(), message: req.session.get('message')});
         res.write(html);
         res.end();
       });
@@ -78,6 +78,20 @@ this.server = http.createServer(function (req, res){
               res.end();
           });
       });
+  }
+
+  else if (req.url == '/users/login' && req.method == 'GET') {
+    fs.readFile('./views/users/login.html', 'UTF-8', function(err, html){
+      res.writeHead(200, {'Content-Type': 'text/html'});
+      res.write(html);
+      res.end();
+    });
+  }
+
+  else if (req.url == '/users/login' && req.method == 'POST') {
+    res.writeHead(302, {Location: '/spaces'});
+    req.session.flash('message', 'Successfuly logged in');
+    res.end();
   }
 
   else {
