@@ -16,11 +16,11 @@ var root = function(req, res){
     userController(req, res);
     spacesController(req, res);
 
-    if (!res) {
-      res.writeHead(404, {'Content-Type': 'text/html'});
-      res.write('Page not found');
-      res.end();
-      }
+    // else {
+    //   res.writeHead(404, {'Content-Type': 'text/html'});
+    //   res.write('Page not found');
+    //   res.end();
+    //   }
 
 };
 
