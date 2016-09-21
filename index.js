@@ -40,7 +40,7 @@ this.server = http.createServer(function (req, res){
 
     req.on('end', function() {
       var post = qs.parse(body);
-      Space.forge({title: post.title, description: post.description, price: post.price, user_id: req.session.get('id')}).save();
+      Space.forge({title: post.title, description: post.description, price: post.price, date: post.date, user_id: req.session.get('id')}).save();
       res.writeHead(302, {Location: "/spaces"});
       res.end();
     });
@@ -61,6 +61,8 @@ this.server = http.createServer(function (req, res){
   }
 
   else if (req.url == '/users/new' && req.method == 'GET' && !req.session.get('id')) {
+
+
     fs.readFile('./views/users/new.html', 'UTF-8', function(err, html){
       res.writeHead(200, {'Content-Type': 'text/html'});
       res.end(html);

@@ -5,6 +5,7 @@ exports.up = function(knex, Promise) {
     table.text('description').notNullable();
     table.integer('price').notNullable();
     table.integer('user_id').references('users.id');
+    table.date('date').notNullable();
   });
 };
 
