@@ -3,15 +3,16 @@ var fs = require('fs');
 var qs = require('querystring');
 var ejs = require('ejs');
 var knex = require('./db/knex.js');
-var bookshelf = require('bookshelf')(knex);
+var bookshelf = require('./db/database.js');
 var NodeSession = require('node-session');
+var User = require('./models/user.js');
+var Space = require('./models/space.js');
 
 var session = new NodeSession({secret: 'murtzsecretkey'});
 
 this.server = http.createServer(function (req, res){
   session.startSession(req, res, function(){
-  var User = bookshelf.Model.extend({tableName: 'users'});
-  var Space = bookshelf.Model.extend({tableName: 'spaces'});
+
 
   if (req.url == "/") {
     res.writeHead(200, {'Content-Type': 'text/html'});
@@ -35,8 +36,8 @@ this.server = http.createServer(function (req, res){
 
     req.on('end', function() {
       var post = qs.parse(body);
-      console.log(post);
-      new Space({title: post.title, description: post.description, price: post.price, date: post.date}).save();
+      new Space({title: post.title, description: post.description, price: post.price}).save();
+      Space.forge({title: post.title, description: post.description, price: post.price, date: post.date, user_id: req.session.get('id')}).save();
       res.writeHead(302, {Location: "/spaces"});
       res.end();
     });
@@ -46,7 +47,9 @@ this.server = http.createServer(function (req, res){
   else if (req.url == "/spaces" && req.method == "GET" ) {
     fs.readFile('./views/spaces/viewspaces.ejs',{encoding: "utf8"}, function(err, page){
       res.writeHead(200, {'Content-Type': 'text/html'});
-      Space.fetchAll().then(function(spaces){
+      Space.fetchAll({
+          withRelated: 'users'
+      }).then(function(spaces){
         var html = ejs.render(page, {spaces: spaces.toJSON()});
         res.write(html);
         res.end();

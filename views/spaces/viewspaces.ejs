@@ -1,5 +1,7 @@
+<ul>
 <% for(var i=0; i<spaces.length; i++) { %>
-  <%= spaces[i]['title'] %> - <%= spaces[i]['description'] %> - <%= spaces[i]['price'] %> - <%= spaces[i]['date'] %>
+  <%= spaces[i]['title'] %> - <%= spaces[i]['description'] %> - <%= spaces[i]['price'] %> - <%= spaces[i].users.email %> - <%= spaces[i]['date'] %>
   <input type="button" onclick="location.href='<%="/spaces/request/"+ spaces[i]["id"]%>';" value="Request Space"/>
   <br>
 <% } %>
+</ul>
