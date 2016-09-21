@@ -12,21 +12,20 @@ describe('Login testing', function(){
 
   beforeEach(function(){
     server.listen(3000);
-    knexCleaner.clean(knex);
     browser.deleteCookies();
+    knex('users').insert({
+      email: 'rosie@allott.com', password: '$2a$10$MjmF1z/VeNe7V5asctIbDOyM8fJeqGeMYFUni7V5Xt80QL5hGCn8G'
+
+    });
   });
 
   afterEach(function(){
     server.close();
+    knexCleaner.clean(knex);
   });
 
   describe("users/login", function(){
     it("should be able to log in", function(next){
-      browser.visit('http://localhost:3000/users/new', function(err){
-        browser.fill('#email-address', 'rosie@allott.com');
-        browser.fill('#password', 'password');
-        browser.pressButton('#signup', function(err){
-          browser.clickLink('Log out', function(){
           browser.visit(url + '/users/login', function(err){
             browser.fill('#email-address', 'rosie@allott.com');
             browser.fill('#password', 'password');
@@ -37,17 +36,10 @@ describe('Login testing', function(){
             });
           });
         });
-      });
-    });
-  });
+
 
   describe("users/login", function(){
     it("should not be able to log in, raise error pword", function(next){
-      browser.visit('http://localhost:3000/users/new', function(err){
-        browser.fill('#email-address', 'rosie@allott.com');
-        browser.fill('#password', 'password');
-        browser.pressButton('#signup', function(err){
-          browser.clickLink('Log out', function(){
           browser.visit(url + '/users/login', function(err){
             browser.fill('#email-address', 'rosie@allott.com');
             browser.fill('#password', 'incorrect');
@@ -58,17 +50,9 @@ describe('Login testing', function(){
             });
           });
         });
-      });
-    });
-  });
 
   describe("users/login", function(){
     it("should not be able to log in, raise error email", function(next){
-      browser.visit('http://localhost:3000/users/new', function(err){
-        browser.fill('#email-address', 'rosie@allott.com');
-        browser.fill('#password', 'password');
-        browser.pressButton('#signup', function(err){
-          browser.clickLink('Log out', function(){
           browser.visit(url + '/users/login', function(err){
             browser.fill('#email-address', 'rosie@notallot.com');
             browser.fill('#password', 'incorrect');
@@ -79,8 +63,5 @@ describe('Login testing', function(){
             });
           });
         });
-      });
-    });
-  });
 
 });

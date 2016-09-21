@@ -3,7 +3,6 @@ var Browser = require("zombie");
 var knexCleaner = require('knex-cleaner');
 var knex = require('../db/knex');
 var server = require('../index.js');
-var helpers = require('./helpers/user_signup_helper.js');
 
 describe("Listing space", function(){
 
