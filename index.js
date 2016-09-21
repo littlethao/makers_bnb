@@ -36,7 +36,8 @@ this.server = http.createServer(function (req, res){
 
     req.on('end', function() {
       var post = qs.parse(body);
-      Space.forge({title: post.title, description: post.description, price: post.price, user_id: req.session.get('id')}).save();
+      new Space({title: post.title, description: post.description, price: post.price}).save();
+      Space.forge({title: post.title, description: post.description, price: post.price, date: post.date, user_id: req.session.get('id')}).save();
       res.writeHead(302, {Location: "/spaces"});
       res.end();
     });
@@ -54,6 +55,12 @@ this.server = http.createServer(function (req, res){
         res.end();
       });
     });
+  }
+
+  else if (req.url == "spaces/request/:spaces['id']" && req.method == "POST"){
+    //hirerID = req.session.get('id')
+    //ownerID = relatedUser when fetch spaces['id']
+    //store request in requests table with hirerID, ownerID, space ID, date
   }
 
   else if (req.url == '/users/new' && req.method == 'GET') {
