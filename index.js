@@ -57,7 +57,7 @@ this.server = http.createServer(function (req, res){
     });
   }
 
-  else if (req.url == '/users/new' && req.method == 'GET') {
+  else if (req.url == '/users/new' && req.method == 'GET' && !req.session.get('id')) {
     fs.readFile('./views/users/new.html', 'UTF-8', function(err, html){
       res.writeHead(200, {'Content-Type': 'text/html'});
       res.end(html);
@@ -69,7 +69,6 @@ this.server = http.createServer(function (req, res){
     req.on('data', function(data){
       body += data;
     });
-
       req.on('end', function(){
           var params = qs.parse(body);
           bcrypt.hash(params.password, 10, function(err, hash){
@@ -83,7 +82,7 @@ this.server = http.createServer(function (req, res){
         });
   }
 
-  else if (req.url == '/users/login' && req.method == 'GET') {
+  else if (req.url == '/users/login' && req.method == 'GET' && !req.session.get('id')) {
     fs.readFile('./views/users/login.ejs', 'UTF-8', function(err, page){
       var html = ejs.render(page, {message: req.session.get('message')});
       res.writeHead(200, {'Content-Type': 'text/html'});
