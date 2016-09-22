@@ -9,12 +9,16 @@ var User = require('./models/user.js');
 var Request = require('./models/request.js');
 var Space = require('./models/space.js');
 var bcrypt = require('bcrypt');
+var url = require('url');
 
 var session = new NodeSession({secret: 'murtzsecretkey'});
 
 this.server = http.createServer(function (req, res){
   session.startSession(req, res, function(){
 
+  var url_request_id = url.parse(req.url).pathname;
+  url_request_id = url_request_id.split('/');
+  url_request_id = url_request_id.slice(-1)[0];
 
   if (req.url == "/" && req.method == 'GET') {
     fs.readFile('./views/home.ejs', {encoding: 'utf8'}, function(err, page){
@@ -61,16 +65,12 @@ this.server = http.createServer(function (req, res){
     });
   }
 
-  else if (req.url == "/spaces/request/" + spaces[i]["id"] && req.method == "GET") {
+  else if (req.url == "/spaces/request/"+url_request_id && req.method == "GET") {
     var spaces = Space.fetchAll({
       withRelated: 'users'
     }).then(function(spaces){
-      console.log("Path: ");
-
-      Request.forge({hirer_id: req.session.get('id'), space_id: spaces.toJSON()[5]['id'], owner_id: spaces.toJSON()[5]['user_id'], date: spaces.toJSON()[5]['date']}).save().then(function(){
-        // res.writeHead(200, {'Content-Type': 'text/html'});
+      Request.forge({hirer_id: req.session.get('id'), space_id: spaces.toJSON()[url_request_id-1]['id'], owner_id: spaces.toJSON()[url_request_id-1]['user_id'], date: spaces.toJSON()[url_request_id-1]['date']}).save().then(function(){
         res.writeHead(302, {Location: '/requests'});
-        console.log("clicked");
         res.end();
       });
     });
