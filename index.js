@@ -45,9 +45,10 @@ this.server = http.createServer(function (req, res){
 
     req.on('end', function() {
       var post = qs.parse(body);
-      Space.forge({title: post.title, description: post.description, price: post.price, date: post.date, user_id: req.session.get('id')}).save();
-      res.writeHead(302, {Location: "/spaces"});
-      res.end();
+      Space.forge({title: post.title, description: post.description, price: post.price, date: post.date, user_id: req.session.get('id')}).save().then(function(){
+        res.writeHead(302, {Location: "/spaces"});
+        res.end();
+      });
     });
 
   }
@@ -80,7 +81,6 @@ this.server = http.createServer(function (req, res){
   else if (req.url == "/requests" && req.method == "GET") {
     fs.readFile('./views/requests/requests.ejs', {encoding: 'utf8'}, function(err, page){
       res.writeHead(200, {'Content-Type': 'text/html'});
-      console.log(req.session.get('id'));
       var requests = Request.where("hirer_id", req.session.get('id')).fetchAll({withRelated: ['users', 'spaces']})
       .then(function(requests){
         var html = ejs.render(page, {requests: requests.toJSON(), message: req.session.get('successMessage')});
