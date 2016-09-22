@@ -2,11 +2,13 @@
 <%= message %>
 
 <ul>
-<%
-for(var i=0; i<spaces.length; i++) { %>
-  <%= spaces[i]['title'] %> - <%= spaces[i]['description'] %> - <%= spaces[i]['price'] %> - <%= spaces[i].users.email %> - <%= spaces[i]['date'] %>
-  <input type="button" onclick="location.href='/requests';" value="Request Space"/>
-  <br>
-<% }
-%>
+  <% for(var i=0; i<spaces.length; i++) { %>
+    <%= spaces[i]['title'] %> - <%= spaces[i]['description'] %> - <%= spaces[i]['price'] %> - <%= spaces[i].users.email %> - <%= spaces[i]['date'] %>
+
+    <button id="reqspace" type="button" name="button">
+      <a href= '<%= "/spaces/request/" + spaces[i]["id"]%>'>Request Space</a>
+    </button>
+
+    <br>
+  <% } %>
 </ul>

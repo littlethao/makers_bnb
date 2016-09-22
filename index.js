@@ -6,6 +6,7 @@ var knex = require('./db/knex.js');
 var bookshelf = require('./db/database.js');
 var NodeSession = require('node-session');
 var User = require('./models/user.js');
+var Request = require('./models/request.js');
 var Space = require('./models/space.js');
 var bcrypt = require('bcrypt');
 
@@ -60,11 +61,19 @@ this.server = http.createServer(function (req, res){
     });
   }
 
-  else if (req.url == "/spaces/request/:spaces['id']" && req.method == "POST") {
+  else if (req.url == "/spaces/request/" + spaces[i]["id"] && req.method == "GET") {
+    var spaces = Space.fetchAll({
+      withRelated: 'users'
+    }).then(function(spaces){
+      console.log("Path: ");
 
-    res.writeHead(200, {'Content-Type': 'text/html'});
-    res.write("");
-    res.end();
+      Request.forge({hirer_id: req.session.get('id'), space_id: spaces.toJSON()[5]['id'], owner_id: spaces.toJSON()[5]['user_id'], date: spaces.toJSON()[5]['date']}).save().then(function(){
+        // res.writeHead(200, {'Content-Type': 'text/html'});
+        res.writeHead(302, {Location: '/requests'});
+        console.log("clicked");
+        res.end();
+      });
+    });
   }
 
   else if (req.url == "/requests" && req.method == "GET") {
