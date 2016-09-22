@@ -60,11 +60,20 @@ this.server = http.createServer(function (req, res){
     });
   }
 
-  else if (req.url = "/spaces/request/:spaces['id']" && req.method == "POST") {
+  else if (req.url == "/spaces/request/:spaces['id']" && req.method == "POST") {
+
     res.writeHead(200, {'Content-Type': 'text/html'});
     res.write("");
     res.end();
-}
+  }
+
+  else if (req.url == "/requests" && req.method == "GET") {
+    fs.readFile('./views/requests/requests.html', function(err, page){
+      res.writeHead(200, {'Content-Type': 'text/html'});
+      res.write(page);
+      res.end();
+    });
+  }
 
   else if (req.url == '/users/new' && req.method == 'GET' ) {
     fs.readFile('./views/users/new.html', 'UTF-8', function(err, html){
