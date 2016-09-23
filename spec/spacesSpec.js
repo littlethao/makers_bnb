@@ -62,7 +62,7 @@ describe("Listing space", function(){
           browser.fill('input[name="date"]', "21/09/2016");
           browser.pressButton('input[value="Add space"]', function(){
             browser.visit('http://localhost:3000/spaces', function(err){
-              browser.pressButton('input[value="Request Space"]', function(){
+              browser.clickLink('Request Space', function(){
                 expect(browser.statusCode).toEqual(200);
                 expect(browser.html("body")).toContain("Request for 'Cosy home with seaview' was sent");
                 next();
