@@ -50,7 +50,6 @@ this.server = http.createServer(function (req, res){
         res.end();
       });
     });
-
   }
 
   else if (req.url == "/spaces" && req.method == "GET" ) {
@@ -102,17 +101,18 @@ this.server = http.createServer(function (req, res){
     req.on('data', function(data){
       body += data;
     });
-      req.on('end', function(){
-          var params = qs.parse(body);
-          bcrypt.hash(params.password, 10, function(err, hash){
-            User.forge({email: params.email, password: hash}).save().then(function(user){
-                req.session.put('id', user.toJSON().id);
-                req.session.flash('message', 'Welcome ' + user.toJSON().email);
-                res.writeHead(302, {Location: '/spaces'});
-                res.end();
-            });
-          });
+
+    req.on('end', function(){
+      var params = qs.parse(body);
+      bcrypt.hash(params.password, 10, function(err, hash){
+        User.forge({email: params.email, password: hash}).save().then(function(user){
+            req.session.put('id', user.toJSON().id);
+            req.session.flash('message', 'Welcome ' + user.toJSON().email);
+            res.writeHead(302, {Location: '/spaces'});
+            res.end();
         });
+      });
+    });
   }
 
   else if (req.url == '/users/login' && req.method == 'GET' && !req.session.get('id')) {
@@ -130,23 +130,23 @@ this.server = http.createServer(function (req, res){
       body += data;
     });
 
-      req.on('end', function(){
-          var params = qs.parse(body);
-          User.where({email: params.email}).fetch().then(function(user){
+    req.on('end', function(){
+      var params = qs.parse(body);
+      User.where({email: params.email}).fetch().then(function(user){
+        if (user && bcrypt.compareSync(params.password, user.toJSON().password)) {
+          req.session.put('id', user.toJSON().id);
+          req.session.flash('message', 'Successfuly logged in');
+          res.writeHead(302, {Location: '/spaces'});
+          res.end();
+        }
 
-            if (user && bcrypt.compareSync(params.password, user.toJSON().password)) {
-              req.session.put('id', user.toJSON().id);
-              req.session.flash('message', 'Successfuly logged in');
-              res.writeHead(302, {Location: '/spaces'});
-              res.end();
-            }
-            else {
-              req.session.flash('message', 'Incorrect email or password');
-              res.writeHead(302, {Location: '/users/login'});
-              res.end();
-            }
-          });
+        else {
+          req.session.flash('message', 'Incorrect email or password');
+          res.writeHead(302, {Location: '/users/login'});
+          res.end();
+        }
       });
+    });
   }
 
   else if (req.url == '/users/logout' && req.method == 'GET') {
@@ -163,7 +163,6 @@ this.server = http.createServer(function (req, res){
     }
   });
 });
-
 
 exports.listen = function () {
   this.server.listen.apply(this.server, arguments);
