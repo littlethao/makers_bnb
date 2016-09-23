@@ -17,8 +17,7 @@ var session = new NodeSession({secret: 'murtzsecretkey'});
 this.server = http.createServer(function (req, res){
   session.startSession(req, res, function(){
     fs.readFile('./views/_header.ejs',  {encoding: 'utf8'}, function(err, headerEJS){
-    var header = ejs.render(headerEJS, {message: req.session.get('message')});
-
+    var header = ejs.render(headerEJS, {message: req.session.get('message'), user: req.session.get('id')});
     var url_request_id = url.parse(req.url).pathname;
     url_request_id = url_request_id.split('/');
     url_request_id = url_request_id.slice(-1)[0];
@@ -71,7 +70,7 @@ this.server = http.createServer(function (req, res){
         Space.fetchAll({
             withRelated: 'users'
         }).then(function(spaces){
-          var html = ejs.render(page, {spaces: spaces.toJSON(), message: req.session.get('message')});
+          var html = ejs.render(page, {spaces: spaces.toJSON(), message: req.session.get('message'), user: req.session.get('id')});
           res.write(header);
           res.write(html);
           res.end();
@@ -83,7 +82,6 @@ this.server = http.createServer(function (req, res){
       var spaces = Space.where("id", url_request_id).fetchAll({
         withRelated: 'users'
       }).then(function(spaces){
-        var html = ejs.render(page, {spaces: spaces.toJSON(), message: req.session.get('message'), message: req.session.get('message')});
         Request.forge({hirer_id: req.session.get('id'), space_id: spaces.toJSON()[0]['id'], owner_id: spaces.toJSON()[0]['user_id'], date: spaces.toJSON()[0]['date']}).save().then(function(){
           req.session.flash('message', 'Request sent :-)');
           res.writeHead(302, {Location: '/requests'});

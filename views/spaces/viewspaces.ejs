@@ -7,7 +7,9 @@
       <th>Price per night</th>
       <th>Host email</th>
       <th>Date available</th>
-      <th>Click to request</th>
+      <% if (user) { %>
+        <th>Click to request</th>
+      <% } %>
     </tr>
   </thead>
 
@@ -20,9 +22,11 @@
       <td><%= spaces[i].users.email %></td>
       <td><%= spaces[i]['date'] %></td>
       <td>
-        <button id="reqspace" type="button" name="button" class="btn btn-default">
-          <a href= '<%= "/spaces/request/" + spaces[i]["id"]%>'>Request Space</a>
-        </button>
+        <% if (user) { %>
+          <button id="reqspace" type="button" name="button" class="btn btn-default">
+            <a href= '<%= "/spaces/request/" + spaces[i]["id"]%>'>Request Space</a>
+          </button>
+        <% } %>
       </td>
     </tr>
     <% } %>
