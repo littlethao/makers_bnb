@@ -21,12 +21,16 @@
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav">
         <li><a href="/spaces">Spaces</a></li>
-        <li><a href="/spaces/new">List Space</a></li>
-        <li><a href="/requests">Requests</a></li>
+        <% if (user) { %>
+          <li><a href="/spaces/new">List Space</a></li>
+          <li><a href="/requests">Requests</a></li>
+        <% } %>
       </ul>
-      <ul class="nav navbar-nav navbar-right">
-        <li><button onclick="window.location.href='/users/logout'" id="logout" name="button" class="btn btn-default">Log out</button></li>
-      </ul>
+      <% if (user) { %>
+        <ul class="nav navbar-nav navbar-right">
+          <li><button onclick="window.location.href='/users/logout'" id="logout" name="button" class="btn btn-default">Log out</button></li>
+        </ul>
+      <% } %>
     </div>
   </div>
 </nav>

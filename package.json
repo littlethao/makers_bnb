@@ -19,6 +19,7 @@
   "dependencies": {
     "bcrypt": "^0.8.7",
     "bookshelf": "^0.10.1",
+    "bookshelf-validate": "^2.0.1",
     "ejs": "^2.5.2",
     "gulp-install": "^0.6.0",
     "jasmine-node": "^1.14.5",
