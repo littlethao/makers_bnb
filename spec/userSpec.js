@@ -27,7 +27,7 @@ describe('user testing', function(){
     it("should have status code of 200", function(next){
       browser.visit(url + '/users/new', function(err){
         expect(browser.statusCode).toEqual(200);
-        expect(browser.html('body')).toContain('Signup');
+        expect(browser.html('body')).toContain('Sign Up');
         expect(browser.query('#email-address')).toBeDefined();
         expect(browser.query('#password')).toBeDefined();
         expect(browser.query('#signup')).toBeDefined();

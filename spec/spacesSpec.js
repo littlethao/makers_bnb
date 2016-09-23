@@ -15,9 +15,9 @@ describe("Listing space", function(){
     server.listen(3000);
     browser.deleteCookies();
     var Space = bookshelf.Model.extend({tableName: 'spaces'});
-    knex('users').insert({
-      email: 'rosie@allott.com', password: '$2a$10$MjmF1z/VeNe7V5asctIbDOyM8fJeqGeMYFUni7V5Xt80QL5hGCn8G'
-    });
+    // knex('users').insert({
+    //   email: 'rosie@allott.com', password: '$2a$10$MjmF1z/VeNe7V5asctIbDOyM8fJeqGeMYFUni7V5Xt80QL5hGCn8G'
+    // });
   });
 
   afterEach(function(){
@@ -38,9 +38,13 @@ describe("Listing space", function(){
           browser.fill('input[name="description"]', "Double bedroom with balcony");
           browser.fill('input[name="price"]', 40);
           browser.fill('input[name="date"]', "21/09/2016");
-          browser.pressButton('input[value="Add space"]', function(){
+          browser.pressButton('#add-space', function(){
             browser.visit('http://localhost:3000/spaces', function(err){
-              expect(browser.html("body")).toContain("Cosy home with seaview - Double bedroom with balcony - 40 - rosie@allott.com - Wed Sep 21 2016");
+              expect(browser.html("body")).toContain("Cosy home with seaview");
+              expect(browser.html("body")).toContain("Double bedroom with balcony");
+              expect(browser.html("body")).toContain(40);
+              expect(browser.html("body")).toContain("rosie@allott.com");
+              expect(browser.html("body")).toContain("Wed Sep 21 2016");
               next();
             });
           });
@@ -60,11 +64,11 @@ describe("Listing space", function(){
           browser.fill('input[name="description"]', "Double bedroom with balcony");
           browser.fill('input[name="price"]', 40);
           browser.fill('input[name="date"]', "21/09/2016");
-          browser.pressButton('input[value="Add space"]', function(){
+          browser.pressButton('#add-space', function(){
             browser.visit('http://localhost:3000/spaces', function(err){
               browser.clickLink('Request Space', function(){
                 expect(browser.statusCode).toEqual(200);
-                expect(browser.html("body")).toContain("Request for 'Cosy home with seaview' was sent");
+                expect(browser.html("body")).toContain("Request sent");
                 next();
               });
             });
