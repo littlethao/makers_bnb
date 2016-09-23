@@ -14,5 +14,13 @@ module.exports = {
     migrations: {
       directory: __dirname + '/db/migrations'
       }
-    }
+    },
+
+    production: {
+      client: 'pg',
+      connection: 'postgres://localhost/bnb_production',
+      migrations: {
+        directory: __dirname + '/db/migrations'
+      }
+    },
   };

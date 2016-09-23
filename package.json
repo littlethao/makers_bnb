@@ -1,6 +1,9 @@
 {
   "name": "makers_bnb",
   "version": "1.0.0",
+  "engines": {
+    "node": "6.6.0"
+  },
   "description": "A Makers AirBnB",
   "main": "index.js",
   "scripts": {
