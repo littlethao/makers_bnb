@@ -1,0 +1,44 @@
+
+.jumbotron {
+  margin-bottom: 0px;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  background-position: 0% 25%;
+  min-height: 1000px;
+  align-content: center;
+}
+ #home-img {
+  background-image: url(http://cdn.wallpapersafari.com/12/8/9oRnCx.jpg);
+}
+
+#login-img {
+ background-image: url(https://www.thedabblist.com/wp-content/uploads/2013/01/IMG_2332.jpg);
+}
+
+.alert-info:empty {
+    display: none;
+}
+
+
+.transparent-grey {
+  background-color: rgba(234, 234, 234, 0.4);
+  border-radius: 25px;
+  text-align: center;
+  align-content: center;
+  height: 25%;
+  width: 50%;
+  margin: 0 auto;
+  align-self: center;
+  padding: 10px 0px 10px 0px;
+}
+.form {
+  background-color: rgba(234, 234, 234, 0.4);
+  border-radius: 10px;
+  text-align: center;
+  align-content: center;
+  height: 25%;
+  width: 25%;
+  margin: 0 auto;
+  align-self: center;
+  padding: 2px 10px 10px 10px;
+}
