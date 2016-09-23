@@ -23,9 +23,8 @@
       <td><%= spaces[i]['date'] %></td>
       <td>
         <% if (user) { %>
-          <button id="reqspace" type="button" name="button" class="btn btn-default">
-            <a href= '<%= "/spaces/request/" + spaces[i]["id"]%>'>Request Space</a>
-          </button>
+          <% var link = "/spaces/request/" + spaces[i]["id"] %>
+          <button id="reqspace" type="button" name="button" class="btn btn-default" onclick="window.location.href='<%= link %>'">Request Space</button>
         <% } %>
       </td>
     </tr>
