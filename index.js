@@ -79,10 +79,10 @@ this.server = http.createServer(function (req, res){
     }
 
     else if (req.url == "/spaces/request/"+url_request_id && req.method == "GET") {
-      var spaces = Space.fetchAll({
+      var spaces = Space.where("id", url_request_id).fetchAll({
         withRelated: 'users'
       }).then(function(spaces){
-        Request.forge({hirer_id: req.session.get('id'), space_id: spaces.toJSON()[url_request_id-1]['id'], owner_id: spaces.toJSON()[url_request_id-1]['user_id'], date: spaces.toJSON()[url_request_id-1]['date']}).save().then(function(){
+        Request.forge({hirer_id: req.session.get('id'), space_id: spaces.toJSON()[0]['id'], owner_id: spaces.toJSON()[0]['user_id'], date: spaces.toJSON()[0]['date']}).save().then(function(){
           req.session.flash('message', 'Request sent :-)');
           res.writeHead(302, {Location: '/requests'});
           res.end();
