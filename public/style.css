@@ -1,0 +1,29 @@
+
+.jumbotron {
+  margin-bottom: 0px;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  background-image: url(http://cdn.wallpapersafari.com/12/8/9oRnCx.jpg);
+  background-position: 0% 25%;
+  min-height: 1000px;
+  align-content: center;
+
+}
+
+.transparent-grey {
+  background-color: rgba(234, 234, 234, 0.4);
+  border-radius: 25px;
+  text-align: center;
+  align-content: center;
+  height: 25%;
+  width: 50%;
+  margin: 0 auto;
+  align-self: center;
+}
+.form {
+  border: 1px solid grey;
+  border-radius: 10px;
+  text-align: center;
+  background-color: #D7EDF5;
+  padding: 10px;
+}
