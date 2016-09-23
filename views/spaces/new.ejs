@@ -1,21 +1,22 @@
-<body>
 
-  <link rel="stylesheet" type="text/css" media="screen" href="http://tarruda.github.com/bootstrap-datetimepicker/assets/css/bootstrap-datetimepicker.min.css">
-
-    <h3><a href="/spaces">Home</a></h3>
-    <h3><a href="/requests">Requests</a></h3>
-
+<div class="center jumbotron" id="login-img">
+  <div class="form">
     <form method="post" action="/spaces/new">
-      Title: <input type="text" name="title"><br>
-      Space description: <input type="text" name="description"><br>
-      Price per night (GBP): <input type="number" name="price"><br>
-      Choose a date:
+      <label for="title">Space Title: </label>
+      <input type="text" class="input-append" name="title"><br>
+      <label for="description">Space Description: </label>
+      <input type="text" class="input-append" name="description"><br>
+      <label for="price">Price Per Night (GBP):</label>
+      <input type="number" class="input-append" name="price"><br>
+      <label for="datepicker">Choose A Date:</label>
       <div id="datepicker" class="input-append">
         <input type="text" name="date"></input>
         <span class="add-on">
           <i data-date-icon="icon-calendar"></i>
         </span>
       </div>
+      <input type="submit" class="btn btn-default" value="Add Space">
+    </form>
 
       <script type="text/javascript"
        src="http://cdnjs.cloudflare.com/ajax/libs/jquery/1.8.3/jquery.min.js">
@@ -29,7 +30,8 @@
       <script type="text/javascript"
        src="http://tarruda.github.com/bootstrap-datetimepicker/assets/js/bootstrap-datetimepicker.pt-BR.js">
       </script>
-
+      <link href="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.2/css/bootstrap-combined.min.css" rel="stylesheet">
+      <link rel="stylesheet" type="text/css" media="screen" href="http://tarruda.github.com/bootstrap-datetimepicker/assets/css/bootstrap-datetimepicker.min.css">
       <script type="text/javascript">
       $(document).ready(function () {
         $('#datepicker').datetimepicker({
@@ -37,8 +39,6 @@
         });
       });
       </script>
-      <input type="submit" value="Add space">
-    </form>
-    <img src="http://cdn.wallpapersafari.com/12/8/9oRnCx.jpg" class="img-responsive" alt="Responsive image">
+
   </body>
 </html>

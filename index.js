@@ -15,8 +15,8 @@ var session = new NodeSession({secret: 'murtzsecretkey'});
 
 this.server = http.createServer(function (req, res){
   session.startSession(req, res, function(){
-    fs.readFile('./views/_header.ejs',  {encoding: 'utf8'}, function(err, header){
-
+    fs.readFile('./views/_header.ejs',  {encoding: 'utf8'}, function(err, headerEJS){
+    var header = ejs.render(headerEJS, {message: req.session.get('message')});
 
     var url_request_id = url.parse(req.url).pathname;
     url_request_id = url_request_id.split('/');
@@ -83,7 +83,7 @@ this.server = http.createServer(function (req, res){
         withRelated: 'users'
       }).then(function(spaces){
         Request.forge({hirer_id: req.session.get('id'), space_id: spaces.toJSON()[url_request_id-1]['id'], owner_id: spaces.toJSON()[url_request_id-1]['user_id'], date: spaces.toJSON()[url_request_id-1]['date']}).save().then(function(){
-          req.session.flash('successMessage', 'Request sent :-)');
+          req.session.flash('message', 'Request sent :-)');
           res.writeHead(302, {Location: '/requests'});
           res.end();
         });
