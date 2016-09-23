@@ -66,7 +66,7 @@ describe("Listing space", function(){
           browser.fill('input[name="date"]', "21/09/2016");
           browser.pressButton('#add-space', function(){
             browser.visit('http://localhost:3000/spaces', function(err){
-              browser.clickLink('Request Space', function(){
+              browser.pressButton('Request Space', function(){
                 expect(browser.statusCode).toEqual(200);
                 expect(browser.html("body")).toContain("Request sent");
                 next();
